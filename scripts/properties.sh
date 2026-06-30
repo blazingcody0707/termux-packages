@@ -371,7 +371,7 @@ fi
 #
 # Default value: `Termux`
 ##
-TERMUX__NAME="Termux"
+TERMUX__NAME="winlator-cmod"
 
 ##
 # The lower case value for `TERMUX__NAME`.
@@ -402,7 +402,7 @@ TERMUX__UNAME="${TERMUX__NAME^^}"
 #
 # Default value: `termux`
 ##
-TERMUX__INTERNAL_NAME="winlator-cmod"
+TERMUX__INTERNAL_NAME="termux-cmod"
 
 ##
 # The regex to validate `TERMUX__INTERNAL_NAME`.
