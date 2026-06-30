@@ -417,8 +417,7 @@ TERMUX__INTERNAL_NAME="winlator-cmod"
 #
 # Constant value: `^[a-z0-9][a-z0-9_-]+[a-z0-9]$`
 ##
-TERMUX__INTERNAL_NAME_REGEX='^[a-z0-9_-]+$'"
-
+TERMUX__INTERNAL_NAME_REGEX="^[a-z0-9][a-z0-9_-]+[a-z0-9]$"
 ##
 # The max length for the `TERMUX__INTERNAL_NAME`.
 #
