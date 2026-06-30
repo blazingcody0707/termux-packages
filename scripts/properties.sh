@@ -427,7 +427,7 @@ TERMUX__INTERNAL_NAME_REGEX="^[a-z0-9][a-z0-9_-]+[a-z0-9]$"
 #
 # Constant value: `7`
 ##
-TERMUX__INTERNAL_NAME___MAX_LEN=7
+TERMUX__INTERNAL_NAME___MAX_LEN=11
 
 
 
