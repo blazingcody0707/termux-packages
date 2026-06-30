@@ -1,0 +1,70 @@
+name: Generate bootstrap archives
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    env:
+      TERMUX_APP_PACKAGE: "com.winlator.cmod"
+      TERMUX_PREFIX: "/data/data/com.winlator.cmod/files/usr"
+      TERMUX_BASE_DIR: "/data/data/com.winlator.cmod/files"
+
+    steps:
+    - name: Clone Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Environment & Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y mariadb-client libmariadb-dev-compat build-essential python3 python3-pip zip unzip quickjs depman
+
+    - name: Patch properties.sh and generate-bootstraps.sh
+      run: |
+        # Fix the syntax error, internal names, and regex parameters
+        sed -i 's/TERMUX__INTERNAL_NAME="termux"/TERMUX__INTERNAL_NAME="termux-cmod"/g' scripts/properties.sh
+        sed -i 's/TERMUX__NAME="Termux"/TERMUX__NAME="Termux-Cmod"/g' scripts/properties.sh
+        
+        # Ensure target creation directories exist before writing fallback files
+        sed -i 's|mkdir -p "$ROOTFS_DIR/etc/profile.d"|mkdir -p "$ROOTFS_DIR/etc/profile.d" "$(dirname "$BOOTSTRAP_FALLBACK_SCRIPT")"|g' scripts/generate-bootstraps.sh
+
+    - name: Pre-build Core Bootstrap Packages
+      run: |
+        # Build core packages required to satisfy base-files dependencies
+        ./build-package.sh -a aarch64 base-files bash termux-exec readline
+        ./build-package.sh -a x86_64 base-files bash termux-exec readline
+
+    - name: Build XFCE4 and X11 Native Support Packages
+      run: |
+        # Compile XFCE4 graphical pipeline packages for Winlator integration
+        ./build-package.sh -a aarch64 xfce4-session xfce4-panel xfce4-settings xfwm4 xfce4-terminal
+
+    - name: Generate Bootstrap Archives
+      run: |
+        # Generate the actual bootstrap zip files
+        ./scripts/generate-bootstraps.sh --add-meta
+
+    - name: Package Assets
+      run: |
+        mkdir -p ./output-assets
+        cp bootstrap-*.zip ./output-assets/ || true
+        echo "Assets prepared for release tracking."
+
+    - name: Upload Assets to GitHub Releases
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+      with:
+        files: ./output-assets/bootstrap-*.zip
+        repository: blazingcody0707/Winlator-cmod-bootstrap
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: v${{ github.run_number }}-beta
+        name: "Winlator CMod Bootstrap v${{ github.run_number }}"
+        draft: false
+        prerelease: false
