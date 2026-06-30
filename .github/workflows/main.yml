@@ -24,7 +24,7 @@ jobs:
     - name: Set up Environment & Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y mariadb-client libmariadb-dev-compat build-essential python3 python3-pip zip unzip quickjs depman
+        sudo apt-get install -y mariadb-client libmariadb-dev-compat build-essential python3 python3-pip zip unzip quickjs
 
     - name: Patch properties.sh and generate-bootstraps.sh
       run: |
