@@ -402,7 +402,7 @@ TERMUX__UNAME="${TERMUX__NAME^^}"
 #
 # Default value: `termux`
 ##
-TERMUX__INTERNAL_NAME="termux"
+TERMUX__INTERNAL_NAME="winlator-cmod"
 
 ##
 # The regex to validate `TERMUX__INTERNAL_NAME`.
@@ -417,7 +417,8 @@ TERMUX__INTERNAL_NAME="termux"
 #
 # Constant value: `^[a-z0-9][a-z0-9_-]+[a-z0-9]$`
 ##
-TERMUX__INTERNAL_NAME_REGEX="^[a-z0-9][a-z0-9_-]+[a-z0-9]$"
+TERMUX__INTERNAL_NAME_REGEX='^[a-z0-9_-]+$'
+"
 
 ##
 # The max length for the `TERMUX__INTERNAL_NAME`.
@@ -436,7 +437,7 @@ TERMUX__INTERNAL_NAME___MAX_LEN=7
 #
 # Default value: `termux`
 ##
-TERMUX__REPOS_HOST_ORG_NAME="termux"
+TERMUX__REPOS_HOST_ORG_NAME="Winlator-cmod-bootstrap"
 
 ##
 # Termux repositories host organization url.
@@ -464,7 +465,7 @@ TERMUX__REPOS_HOST_ORG_URL="https://github.com/$TERMUX__REPOS_HOST_ORG_NAME"
 #
 # Default value: `com.termux`
 ##
-TERMUX_APP__PACKAGE_NAME="com.termux"
+TERMUX_APP__PACKAGE_NAME="com.winlator.cmod"
 TERMUX_APP_PACKAGE="$TERMUX_APP__PACKAGE_NAME" # Deprecated alternative variable for `TERMUX_APP__PACKAGE_NAME`
 
 __termux_build_props__add_variables_validator_actions "TERMUX_APP__PACKAGE_NAME" "app_package_name"
